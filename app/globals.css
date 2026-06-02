@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette — warm paper + ink, one quiet accent */
+  --color-paper: #fbfaf7;
+  --color-paper-2: #f4f1ea;
+  --color-ink: #15161a;
+  --color-muted: #6b6a66;
+  --color-line: #e6e2d9;
+  --color-accent: #1f3a5f;
+  --color-accent-soft: #2f5a8f;
+
+  /* Type — wired to next/font CSS variables (see layout.tsx) */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: #dfe6ef;
+    color: var(--color-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
