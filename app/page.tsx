@@ -160,10 +160,7 @@ export default function Home() {
         {/* Experience */}
         <section id="experience" className="border-t border-line bg-paper-2">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-              <SectionHeading>Experience</SectionHeading>
-              <span className="text-[13px] text-muted">Energy · Aviation · Rail · Banking</span>
-            </div>
+            <SectionHeading>Experience</SectionHeading>
             <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] text-muted">
               Client engagements, delivered as a consultant with
               <a
@@ -183,13 +180,10 @@ export default function Home() {
                   key={e.id}
                   className="grid gap-6 border-t border-line py-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-14 md:py-12"
                 >
-                  <div>
+                  <h3 className="flex items-center gap-4 self-start font-serif text-3xl tracking-[-0.01em] lg:text-4xl">
                     <CompanyLogo logo={e.logo} />
-                    <h3 className="mt-5 font-serif text-3xl tracking-[-0.01em] lg:text-4xl">
-                      {e.company}
-                    </h3>
-                    <p className="mt-2 text-[15px] text-muted">{e.sector}</p>
-                  </div>
+                    {e.company}
+                  </h3>
                   <div className="max-w-xl">
                     <p className="text-xl font-medium leading-snug text-ink">{e.did}</p>
                     <p className="mt-3 text-[17px] leading-relaxed text-muted">{e.summary}</p>
@@ -268,15 +262,28 @@ export default function Home() {
                   className="grid gap-4 py-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-14"
                 >
                   <div>
-                    {p.logo && (
-                      <div className="mb-4">
-                        <CompanyLogo logo={p.logo} />
-                      </div>
+                    {p.clients ? (
+                      <>
+                        <h3 className="sr-only">{p.name}</h3>
+                        <ul className="space-y-3">
+                          {p.clients.map((c) => (
+                            <li
+                              key={c.name}
+                              className="flex items-center gap-4 font-serif text-2xl tracking-[-0.01em] sm:text-3xl"
+                            >
+                              <CompanyLogo logo={c.logo} />
+                              {c.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <h3 className="flex items-center gap-4 font-serif text-2xl tracking-[-0.01em] sm:text-3xl">
+                        {p.logo && <CompanyLogo logo={p.logo} />}
+                        {p.name}
+                      </h3>
                     )}
-                    <h3 className="font-serif text-2xl tracking-[-0.01em] sm:text-3xl">
-                      {p.name}
-                    </h3>
-                    <p className="mt-1.5 text-[15px] text-muted">{p.role}</p>
+                    <p className="mt-3 text-[15px] text-muted">{p.role}</p>
                   </div>
                   <div className="max-w-xl">
                     <p className="text-[17px] leading-relaxed text-ink">{p.description}</p>
@@ -303,8 +310,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* About */}
-        <section id="about" className="border-t border-line">
+        {/* About and contact */}
+        <section id="about" className="border-t border-line bg-paper-2">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
             <SectionHeading>About</SectionHeading>
             <div className="mt-10 grid items-start gap-10 md:grid-cols-[auto_1fr] md:gap-14">
@@ -335,59 +342,44 @@ export default function Home() {
                   <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
               </div>
-              <div className="max-w-xl space-y-6 text-lg leading-relaxed text-muted">
-                <p>
-                  I started out as a{" "}
-                  <span className="text-ink">data engineer and data scientist</span>
-                  , consulting for teams that needed to turn messy data into
-                  something they could actually use.
-                </p>
-                <p>
-                  That grew into architecture and leadership: designing the
-                  platforms data teams stand on, introducing data products where
-                  there were only pipelines, and leading the engineers and
-                  scientists who take it into production. In energy, aviation,
-                  rail, and banking.
-                </p>
-                <p>
-                  {site.company} is the company behind that work, based in
-                  Antwerp. The client engagements ran through {dataminded.name}.
-                  On the side I co-founded Expedait.
-                </p>
-                <p className="text-ink">
-                  If a problem is worth solving end to end, I want to build it.
-                </p>
+              <div className="max-w-xl">
+                <div className="space-y-6 text-lg leading-relaxed text-muted">
+                  <p>
+                    I started out as a{" "}
+                    <span className="text-ink">data engineer and data scientist</span>
+                    , consulting for teams that needed to turn messy data into
+                    something they could actually use.
+                  </p>
+                  <p>
+                    That grew into architecture and leadership: designing the
+                    platforms data teams stand on, introducing data products where
+                    there were only pipelines, and leading the engineers and
+                    scientists who take it into production. In energy, aviation,
+                    rail, and banking.
+                  </p>
+                  <p>
+                    {site.company} is the company behind that work, based in
+                    Antwerp. The client engagements ran through {dataminded.name}.
+                    On the side I co-founded Expedait.
+                  </p>
+                  <p className="text-ink">
+                    If a problem is worth solving end to end, I want to build it.
+                  </p>
+                </div>
+                <div id="contact" className="mt-12 scroll-mt-24 border-t border-line pt-10">
+                  <p className="text-lg text-muted">
+                    I read every email and reply to the ones that aren&apos;t robots.
+                  </p>
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="group mt-6 inline-flex items-center gap-2 font-serif text-2xl text-ink underline decoration-ink/25 decoration-2 underline-offset-[6px] transition-colors hover:decoration-accent sm:text-3xl"
+                  >
+                    {site.email}
+                    <ArrowUpRight className="size-5 text-muted transition-[transform,color] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Contact */}
-        <section id="contact" className="border-t border-line bg-paper-2">
-          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-            <SectionHeading>Contact</SectionHeading>
-            <p className="mt-4 max-w-lg text-lg text-muted">
-              I read every email and reply to the ones that aren&apos;t robots.
-            </p>
-            <a
-              href={`mailto:${site.email}`}
-              className="group mt-8 inline-flex items-center gap-2 font-serif text-2xl text-ink underline decoration-ink/25 decoration-2 underline-offset-[6px] transition-colors hover:decoration-accent sm:text-3xl"
-            >
-              {site.email}
-              <ArrowUpRight className="size-5 text-muted transition-[transform,color] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
-            </a>
-            <p className="mt-5 text-[15px] text-muted">
-              Or find me on{" "}
-              <a
-                href={site.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
-              >
-                LinkedIn
-              </a>
-              .
-            </p>
           </div>
         </section>
       </main>

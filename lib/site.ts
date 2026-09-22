@@ -137,7 +137,6 @@ export type Logo = {
 export type Experience = {
   id: string;
   company: string;
-  sector: string;
   logo: Logo;
   /** What I did there, as a verb phrase. */
   did: string;
@@ -151,7 +150,6 @@ export const experience: Experience[] = [
   {
     id: "luminus",
     company: "EDF Luminus",
-    sector: "Energy generation",
     logo: { src: "/logos/companies/luminus.svg", height: 26, width: 85 },
     did: "Led the data team of the generation department",
     summary:
@@ -166,7 +164,6 @@ export const experience: Experience[] = [
   {
     id: "brussels-airlines",
     company: "Brussels Airlines",
-    sector: "Aviation",
     logo: { src: "/logos/companies/brussels-airlines.svg", height: 22, width: 93 },
     did: "Co-architected the move to data products",
     summary:
@@ -180,7 +177,6 @@ export const experience: Experience[] = [
   {
     id: "sncb",
     company: "SNCB/NMBS",
-    sector: "Belgian railways",
     logo: { src: "/logos/companies/sncb.svg", height: 22, width: 34 },
     did: "Introduced data products and led the first ones",
     summary:
@@ -195,7 +191,6 @@ export const experience: Experience[] = [
   {
     id: "kbc",
     company: "KBC",
-    sector: "Banking",
     logo: { src: "/logos/companies/kbc.svg", height: 26, width: 33 },
     did: "Engineered the first cloud data platform",
     summary:
@@ -215,6 +210,8 @@ export type Project = {
   href?: string;
   hrefLabel?: string;
   logo?: Logo;
+  /** Several organisations under one entry; each renders on its own line, logo first, instead of `name`. */
+  clients?: { name: string; logo: Logo }[];
 };
 
 /** Everything else worth knowing about, in no particular order. */
@@ -259,6 +256,13 @@ export const projects: Project[] = [
   {
     id: "workshops",
     name: "Bank Delen, Atlas Copco, VRT, Climact, UZA",
+    clients: [
+      { name: "Bank Delen", logo: { src: "/logos/companies/delen.svg", height: 22, width: 112 } },
+      { name: "Atlas Copco", logo: { src: "/logos/companies/atlas-copco.svg", height: 16, width: 91 } },
+      { name: "VRT", logo: { src: "/logos/companies/vrt.svg", height: 18, width: 46 } },
+      { name: "Climact", logo: { src: "/logos/companies/climact.svg", height: 14, width: 90 } },
+      { name: "UZA", logo: { src: "/logos/companies/uza.svg", height: 20, width: 45 } },
+    ],
     role: "Workshops",
     description:
       "Led data and ML platform as-is and to-be workshops. UZA is the Antwerp University Hospital.",
