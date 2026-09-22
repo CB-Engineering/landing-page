@@ -1,5 +1,14 @@
 import Image from "next/image";
-import { site, projects } from "@/lib/site";
+import {
+  site,
+  dataminded,
+  services,
+  experience,
+  certifications,
+  projects,
+  techIcons,
+  type Logo,
+} from "@/lib/site";
 import bruno from "@/public/bruno.jpg";
 
 const ArrowUpRight = ({ className = "" }: { className?: string }) => (
@@ -17,8 +26,54 @@ const ArrowUpRight = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+const SectionHeading = ({ children }: { children: React.ReactNode }) => (
+  <h2 className="font-serif text-3xl leading-snug tracking-[-0.01em] sm:text-4xl">
+    {children}
+  </h2>
+);
+
+/** Company mark in ink. Decorative: the adjacent heading carries the name. */
+const CompanyLogo = ({ logo }: { logo: Logo }) => (
+  // eslint-disable-next-line @next/next/no-img-element
+  <img
+    src={logo.src}
+    alt=""
+    aria-hidden="true"
+    width={logo.width}
+    height={logo.height}
+    className={`select-none ${logo.raster ? "grayscale" : ""}`}
+    loading="lazy"
+  />
+);
+
+const TechList = ({ items }: { items: string[] }) => (
+  <ul className="flex flex-wrap gap-2" aria-label="Technologies">
+    {items.map((name) => {
+      const icon = techIcons[name];
+      return (
+        <li
+          key={name}
+          className="inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-3 py-1 text-xs font-medium text-muted"
+        >
+          {icon && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={icon}
+              alt=""
+              aria-hidden="true"
+              className="size-3.5 opacity-80"
+              loading="lazy"
+            />
+          )}
+          {name}
+        </li>
+      );
+    })}
+  </ul>
+);
+
 export default function Home() {
-  const year = 2026;
+  const year = new Date().getFullYear();
 
   return (
     <div className="min-h-screen">
@@ -33,16 +88,19 @@ export default function Home() {
               {site.company}
             </span>
           </a>
-          <nav className="flex items-center gap-7 text-sm text-muted">
-            <a href="#projects" className="transition-colors hover:text-ink">
-              Projects
+          <nav className="flex items-center gap-6 text-sm text-muted">
+            <a href="#services" className="-my-2 hidden py-2 transition-colors hover:text-ink sm:inline">
+              Services
             </a>
-            <a href="#about" className="hidden transition-colors hover:text-ink sm:inline">
-              About
+            <a href="#experience" className="-my-2 py-2 transition-colors hover:text-ink">
+              Experience
+            </a>
+            <a href="#projects" className="-my-2 hidden py-2 transition-colors hover:text-ink sm:inline">
+              Projects
             </a>
             <a
               href="#contact"
-              className="font-medium text-ink transition-colors hover:text-accent"
+              className="-my-2 py-2 font-medium text-ink transition-colors hover:text-accent"
             >
               Contact
             </a>
@@ -53,93 +111,202 @@ export default function Home() {
       <main id="top">
         {/* Hero */}
         <section className="mx-auto max-w-5xl px-6 pb-20 pt-24 sm:pt-32">
-          <p className="mb-6 flex items-center gap-2.5 text-[13px] font-medium uppercase tracking-[0.18em] text-muted">
-            <span className="inline-block size-1.5 rounded-full bg-accent" />
-            {site.company} · {site.location}
-          </p>
-          <h1 className="max-w-3xl font-serif text-5xl leading-[1.05] tracking-[-0.02em] sm:text-6xl md:text-7xl">
-            Software products,
-            <br />
-            built from Brussels.
+          <h1 className="max-w-4xl text-balance font-serif text-5xl leading-[1.05] tracking-[-0.02em] md:text-6xl lg:text-7xl">
+            Data and AI architecture.
           </h1>
           <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted">
-            {site.company} is the company of {site.founder} — an engineer turned
-            founder. These days I build two products:{" "}
-            <span className="text-ink">Expedait</span> and{" "}
-            <span className="text-ink">Babyfoon</span>.
+            {site.company} is the freelance data and AI architecture company of{" "}
+            <span className="text-ink">{site.founder}</span>, based in Antwerp.
+            Specialised in AI and ML in production.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
-              href="#projects"
-              className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-transform hover:-translate-y-0.5"
+              href="#services"
+              className="inline-flex items-center gap-2 rounded-full border border-ink bg-ink px-6 py-3 text-sm font-medium text-paper transition-transform hover:-translate-y-0.5 active:translate-y-0"
             >
-              See the projects
+              What I can help with
             </a>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink"
+              className="inline-flex items-center gap-2 rounded-full border border-line px-6 py-3 text-sm font-medium text-ink transition-colors hover:border-ink active:bg-paper-2"
             >
               Get in touch
             </a>
           </div>
         </section>
 
-        {/* Projects */}
-        <section id="projects" className="border-t border-line">
-          <div className="mx-auto max-w-5xl px-6">
-            <div className="flex items-baseline justify-between py-8">
-              <h2 className="text-[13px] font-medium uppercase tracking-[0.18em] text-muted">
-                Projects
-              </h2>
-              <span className="text-[13px] text-muted">{projects.length} of them</span>
-            </div>
-
-            <div className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-2">
-              {projects.map((p) => (
-                <a
-                  key={p.id}
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex flex-col bg-paper p-8 transition-colors hover:bg-paper-2 sm:p-10"
+        {/* Services */}
+        <section id="services" className="border-t border-line">
+          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+            <SectionHeading>Services</SectionHeading>
+            <dl className="mt-10 divide-y divide-line border-y border-line">
+              {services.map((s) => (
+                <div
+                  key={s.id}
+                  className="grid gap-3 py-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-14"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="font-serif text-2xl text-muted/70">
-                      {p.index}
-                    </span>
-                    <span className="rounded-full border border-line px-3 py-1 text-xs font-medium text-muted">
-                      {p.tag}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-8 flex items-center gap-2 font-serif text-3xl tracking-[-0.01em] sm:text-4xl">
-                    {p.name}
-                    <ArrowUpRight className="size-5 -translate-y-1 text-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-1.5 group-hover:text-accent" />
-                  </h3>
-
-                  <p className="mt-3 text-lg font-medium leading-snug text-ink">
-                    {p.tagline}
-                  </p>
-                  <p className="mt-4 text-[15px] leading-relaxed text-muted">
-                    {p.description}
-                  </p>
-
-                  <span className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-                    {p.hrefLabel}
-                    <ArrowUpRight className="size-3.5" />
-                  </span>
-                </a>
+                  <dt className="text-xl font-medium leading-snug text-ink">
+                    {s.name}
+                  </dt>
+                  <dd className="max-w-xl text-[17px] leading-relaxed text-muted">
+                    {s.description}
+                  </dd>
+                </div>
               ))}
+            </dl>
+          </div>
+        </section>
+
+        {/* Experience */}
+        <section id="experience" className="border-t border-line bg-paper-2">
+          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+              <SectionHeading>Experience</SectionHeading>
+              <span className="text-[13px] text-muted">Energy · Aviation · Rail · Banking</span>
             </div>
+            <p className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] text-muted">
+              Client engagements, delivered as a consultant with
+              <a
+                href={dataminded.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="-my-2.5 inline-flex items-center py-2.5 opacity-90 transition-opacity hover:opacity-100"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={dataminded.logo} alt={dataminded.name} width={105} height={15} loading="lazy" />
+              </a>
+            </p>
+
+            <ol className="mt-10">
+              {experience.map((e) => (
+                <li
+                  key={e.id}
+                  className="grid gap-6 border-t border-line py-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-14 md:py-12"
+                >
+                  <div>
+                    <CompanyLogo logo={e.logo} />
+                    <h3 className="mt-5 font-serif text-3xl tracking-[-0.01em] lg:text-4xl">
+                      {e.company}
+                    </h3>
+                    <p className="mt-2 text-[15px] text-muted">{e.sector}</p>
+                  </div>
+                  <div className="max-w-xl">
+                    <p className="text-xl font-medium leading-snug text-ink">{e.did}</p>
+                    <p className="mt-3 text-[17px] leading-relaxed text-muted">{e.summary}</p>
+                    {e.highlights.length > 0 && (
+                      <ul className="mt-5 space-y-2.5 pl-5 text-[15px] leading-relaxed text-muted marker:text-accent">
+                        {e.highlights.map((h) => (
+                          <li key={h} className="list-disc pl-1">
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <div className="mt-7">
+                      <TechList items={e.stack} />
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Certifications */}
+        <section id="certifications" className="border-t border-line">
+          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+            <SectionHeading>Certifications</SectionHeading>
+            <ul className="mt-10 grid border-y border-line md:grid-cols-2 md:gap-x-14">
+              {certifications.map((c) => (
+                <li
+                  key={c.id}
+                  className="flex items-start gap-4 border-b border-line py-6 last:border-b-0 md:[&:nth-last-child(2)]:border-b-0"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={c.icon}
+                    alt=""
+                    aria-hidden="true"
+                    className="mt-1 size-6 shrink-0 opacity-80"
+                    loading="lazy"
+                  />
+                  <div className="min-w-0">
+                    <p className="text-[17px] font-medium leading-snug text-ink">
+                      {c.name}
+                    </p>
+                    <p className="mt-1 text-[15px] text-muted">
+                      {c.issuer}
+                      {c.code && <> · {c.code}</>}
+                    </p>
+                    <p className="mt-2.5 text-[13px]">
+                      {c.status === "in-progress" ? (
+                        <span className="inline-flex items-center gap-1.5 font-medium text-accent">
+                          <span className="inline-block size-1.5 rounded-full bg-accent" aria-hidden="true" />
+                          In progress
+                        </span>
+                      ) : (
+                        <span className="text-muted">
+                          Issued {c.issued} · Expired {c.expired}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Other projects */}
+        <section id="projects" className="border-t border-line">
+          <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
+            <SectionHeading>Other projects</SectionHeading>
+            <ul className="mt-10 divide-y divide-line border-y border-line">
+              {projects.map((p) => (
+                <li
+                  key={p.id}
+                  className="grid gap-4 py-8 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-14"
+                >
+                  <div>
+                    {p.logo && (
+                      <div className="mb-4">
+                        <CompanyLogo logo={p.logo} />
+                      </div>
+                    )}
+                    <h3 className="font-serif text-2xl tracking-[-0.01em] sm:text-3xl">
+                      {p.name}
+                    </h3>
+                    <p className="mt-1.5 text-[15px] text-muted">{p.role}</p>
+                  </div>
+                  <div className="max-w-xl">
+                    <p className="text-[17px] leading-relaxed text-ink">{p.description}</p>
+                    {p.stack.length > 0 && (
+                      <div className="mt-5">
+                        <TechList items={p.stack} />
+                      </div>
+                    )}
+                    {p.href && (
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group -mb-2 mt-3 inline-flex items-center gap-1.5 py-2 text-sm font-medium text-accent"
+                      >
+                        {p.hrefLabel}
+                        <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
         {/* About */}
         <section id="about" className="border-t border-line">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-            <h2 className="text-[13px] font-medium uppercase tracking-[0.18em] text-muted">
-              About
-            </h2>
+            <SectionHeading>About</SectionHeading>
             <div className="mt-10 grid items-start gap-10 md:grid-cols-[auto_1fr] md:gap-14">
               <div className="shrink-0">
                 <div className="relative size-44 overflow-hidden rounded-2xl ring-1 ring-line sm:size-52">
@@ -150,29 +317,46 @@ export default function Home() {
                     placeholder="blur"
                     sizes="208px"
                     className="object-cover"
-                    priority
                   />
                 </div>
                 <p className="mt-4 text-[15px] font-semibold text-ink">
                   {site.founder}
                 </p>
-                <p className="text-[15px] text-muted">Founder, {site.company}</p>
+                <p className="text-[15px] text-muted">
+                  {site.title} · Antwerp
+                </p>
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group mt-3 inline-flex items-center gap-1.5 text-[15px] font-medium text-accent"
+                >
+                  LinkedIn
+                  <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
               </div>
               <div className="max-w-xl space-y-6 text-lg leading-relaxed text-muted">
-              <p>
-                I started out as a{" "}
-                <span className="text-ink">data engineer and data scientist</span>
-                , consulting for teams that needed to turn messy data into
-                something they could actually use.
-              </p>
-              <p>
-                Over the years that turned into building and shipping products of
-                my own. {site.company} is the company behind that work — today
-                focused on Expedait, with Babyfoon running quietly on the side.
-              </p>
-              <p className="text-ink">
-                If a problem is worth solving end to end, I want to build it.
-              </p>
+                <p>
+                  I started out as a{" "}
+                  <span className="text-ink">data engineer and data scientist</span>
+                  , consulting for teams that needed to turn messy data into
+                  something they could actually use.
+                </p>
+                <p>
+                  That grew into architecture and leadership: designing the
+                  platforms data teams stand on, introducing data products where
+                  there were only pipelines, and leading the engineers and
+                  scientists who take it into production. In energy, aviation,
+                  rail, and banking.
+                </p>
+                <p>
+                  {site.company} is the company behind that work, based in
+                  Antwerp. The client engagements ran through {dataminded.name}.
+                  On the side I co-founded Expedait.
+                </p>
+                <p className="text-ink">
+                  If a problem is worth solving end to end, I want to build it.
+                </p>
               </div>
             </div>
           </div>
@@ -181,22 +365,29 @@ export default function Home() {
         {/* Contact */}
         <section id="contact" className="border-t border-line bg-paper-2">
           <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">
-            <h2 className="text-[13px] font-medium uppercase tracking-[0.18em] text-muted">
-              Contact
-            </h2>
-            <p className="mt-6 max-w-2xl font-serif text-3xl leading-snug tracking-[-0.01em] sm:text-4xl">
-              Building something, hiring, or just want to talk shop?
-            </p>
+            <SectionHeading>Contact</SectionHeading>
             <p className="mt-4 max-w-lg text-lg text-muted">
               I read every email and reply to the ones that aren&apos;t robots.
             </p>
             <a
               href={`mailto:${site.email}`}
-              className="group mt-8 inline-flex items-center gap-2 font-serif text-2xl text-ink underline decoration-line decoration-2 underline-offset-[6px] transition-colors hover:decoration-accent sm:text-3xl"
+              className="group mt-8 inline-flex items-center gap-2 font-serif text-2xl text-ink underline decoration-ink/25 decoration-2 underline-offset-[6px] transition-colors hover:decoration-accent sm:text-3xl"
             >
               {site.email}
-              <ArrowUpRight className="size-5 text-muted transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
+              <ArrowUpRight className="size-5 text-muted transition-[transform,color] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
             </a>
+            <p className="mt-5 text-[15px] text-muted">
+              Or find me on{" "}
+              <a
+                href={site.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-accent underline decoration-accent/30 underline-offset-4 transition-colors hover:decoration-accent"
+              >
+                LinkedIn
+              </a>
+              .
+            </p>
           </div>
         </section>
       </main>
@@ -213,11 +404,11 @@ export default function Home() {
             </span>
           </div>
           <div className="flex items-center gap-6">
-            <a href="https://expedait.org" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink">
-              Expedait
+            <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="-my-2 py-2 transition-colors hover:text-ink">
+              LinkedIn
             </a>
-            <a href="https://babyfoon.dev" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-ink">
-              Babyfoon
+            <a href="https://expedait.org" target="_blank" rel="noopener noreferrer" className="-my-2 py-2 transition-colors hover:text-ink">
+              Expedait
             </a>
             <span>© {year}</span>
           </div>

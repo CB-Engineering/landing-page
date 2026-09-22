@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
 
@@ -17,25 +17,34 @@ const fraunces = Fraunces({
 
 const SITE_URL = "https://cbengineering.be";
 
+export const viewport: Viewport = {
+  // Same value as --color-paper in globals.css; metadata cannot read CSS tokens.
+  themeColor: "#fbfaf7",
+};
+
+const TITLE = "CB Engineering — AI and data architect, Antwerp";
+const DESCRIPTION =
+  "Bruno Coussement is an AI and data architect. Cloud data platforms, data products, and machine learning in operations for energy, aviation, rail, and banking. Based in Antwerp, Belgium.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "CB Engineering — software products from Brussels",
-  description:
-    "CB Engineering is the studio of Bruno Coussement, building software products from Brussels. Home of Expedait and Babyfoon.",
+  title: TITLE,
+  description: DESCRIPTION,
   keywords: [
     "CB Engineering",
     "Bruno Coussement",
+    "AI architect",
+    "data architect",
+    "data platform",
+    "data products",
+    "machine learning",
+    "Antwerp",
     "Expedait",
-    "Babyfoon",
-    "software studio",
-    "Brussels",
-    "data engineering",
   ],
   authors: [{ name: "Bruno Coussement" }],
   openGraph: {
-    title: "CB Engineering — software products from Brussels",
-    description:
-      "The studio of Bruno Coussement. Building Expedait and Babyfoon from Brussels.",
+    title: TITLE,
+    description: DESCRIPTION,
     url: SITE_URL,
     siteName: "CB Engineering",
     type: "website",
@@ -43,9 +52,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "CB Engineering — software products from Brussels",
-    description:
-      "The studio of Bruno Coussement. Building Expedait and Babyfoon from Brussels.",
+    title: TITLE,
+    description: DESCRIPTION,
   },
   alternates: { canonical: SITE_URL },
 };
