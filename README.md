@@ -1,8 +1,9 @@
 # CB Engineering — landing page
 
-The homepage of **CB Engineering BV** (Brussels), the company of Bruno Coussement.
-A typography-led one-pager showcasing the projects: [Expedait](https://expedait.org)
-and [Babyfoon](https://babyfoon.dev), plus a way to get in touch.
+The homepage of **CB Engineering BV** (Antwerp), the company of Bruno Coussement.
+A typography-led one-pager positioning Bruno as an AI and data architect: services,
+experience (EDF Luminus, Brussels Airlines, SNCB/NMBS, KBC, via Dataminded), certifications, other projects
+(Expedait, Naby, Stadim, EUMETSAT), and a way to get in touch.
 
 ## Stack
 
@@ -33,5 +34,7 @@ Vercel auto-detects Next.js — no configuration needed. Point the
 
 ## Editing content
 
-All copy and project data live in [`lib/site.ts`](./lib/site.ts). Add or edit a
-project there and it renders automatically.
+Services, experience, project data, and the technology icon map live in
+[`lib/site.ts`](./lib/site.ts). Add or edit an entry there and it renders automatically.
+Logos live in `public/logos/` as single-colour SVGs (ink `#15161a`). Hero, about, and contact copy live in
+[`app/page.tsx`](./app/page.tsx).
